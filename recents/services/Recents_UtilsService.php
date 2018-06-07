@@ -107,7 +107,7 @@ class Recents_UtilsService extends BaseApplicationComponent
 	private function getElementFromId($entry_id)
 	{
 		// Get element from id
-		$criteria = craft()->elements->getCriteria(ElementType::Entry);
+		$criteria = craft()->elements->getCriteria(ElementType::Commerce_Product);
 		$criteria->id = $entry_id;
 		return $criteria->first();
 	}
@@ -152,7 +152,8 @@ class Recents_UtilsService extends BaseApplicationComponent
 	
 	private function isValidEntry($element = null)
 	{
-		return ($element && $element->getElementType() == ElementType::Entry && $this->isSectionTracked($element->sectionId));
+		//return ($element && $element->getElementType() == ElementType::Commerce_Product && $this->isSectionTracked($element->sectionId));
+		return ($element && $element->getElementType() == $this->isSectionTracked($element->type->id));
 	}
 	
 	private function isSectionTracked($sectionId = null)
@@ -175,7 +176,6 @@ class Recents_UtilsService extends BaseApplicationComponent
 	{
 		$expire = (int) strtotime("+1 month");
 		$cookie = new HttpCookie($name, '');
-	
 		$cookie->value = craft()->security->hashData(base64_encode(serialize($entry_list)));
 		$cookie->expire = $expire;
 		$cookie->path = '/'; // Available to entire domain

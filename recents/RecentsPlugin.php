@@ -70,13 +70,23 @@ class RecentsPlugin extends BasePlugin
     {
         $sections = array();
 
-        foreach(craft()->sections->getAllSections() as $section)
+		
+		foreach(craft()->sections->getAllSections() as $section)
         {
             $sections[] = array(
                 'label' => $section->name,
                 'value' => $section->id
             );
-        }
+		}
+		
+		
+		foreach(craft()->commerce_productTypes->getAllProductTypes() as $section)
+		{
+			$sections[] = array(
+                'label' => $section->name,
+                'value' => $section->id
+            );
+		}
 
         return craft()->templates->render('recents/settings', array(
             'sections' => $sections,
